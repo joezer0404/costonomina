@@ -19,6 +19,12 @@ public class MateriaPrimaTextilVo extends MateriaPrimaVo{
     protected Unidad unidad;
     protected float pesoMtrs;
 
+    public MateriaPrimaTextilVo(){
+        super();
+        this.unidad   = Unidad.KG;
+        this.pesoMtrs = 0;
+    }
+    
     public MateriaPrimaTextilVo(Unidad unidad, float pesoMtrs) {
         this.unidad = unidad;
         this.pesoMtrs = pesoMtrs;

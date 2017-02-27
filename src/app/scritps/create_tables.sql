@@ -134,7 +134,7 @@ CREATE INDEX index_materia ON MATERIA_PRIMA(descripcion);
 
 DROP TABLE IF EXISTS NO_TEXTIL;
 CREATE TABLE NO_TEXTIL(
-	id			 int auto_increment		PRIMARY KEY,
+	id		 int                                    PRIMARY KEY,
 	peso 		 float					NOT NULL,
 	FOREIGN KEY (id)
 		REFERENCES MATERIA_PRIMA(id)
@@ -148,8 +148,8 @@ CREATE INDEX index_no_textil ON NO_TEXTIL(id);
 
 DROP TABLE IF EXISTS TEXTIL;
 CREATE TABLE TEXTIL(
-	id			 int auto_increment		PRIMARY KEY,
-	unid_med  	 ENUM('KG', 'MT')		NOT NULL, 
+	id		 int                                    PRIMARY KEY,
+	unid_med  	 ENUM('KG', 'MT')                       NOT NULL, 
 	peso 	  	 float					NOT NULL,
 	FOREIGN KEY (id)
 		REFERENCES MATERIA_PRIMA(id)

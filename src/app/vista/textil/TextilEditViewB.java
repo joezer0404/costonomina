@@ -14,7 +14,7 @@ import java.awt.event.ActionListener;
  * 
  * @author Hector
  */
-public class TextilEditView extends javax.swing.JDialog {
+public class TextilEditViewB extends javax.swing.JDialog {
 
     /**
      * 1- Usar Vo correcto
@@ -29,7 +29,7 @@ public class TextilEditView extends javax.swing.JDialog {
      * @param modal
      * @param materiatextil
      */
-    public TextilEditView(java.awt.Frame parent, boolean modal, MateriaPrimaTextilVo materiatextil) {
+    public TextilEditViewB(java.awt.Frame parent, boolean modal, MateriaPrimaTextilVo materiatextil) {
         super(parent, modal);
         initComponents();
         this.materiatextil = materiatextil;
@@ -64,14 +64,14 @@ public class TextilEditView extends javax.swing.JDialog {
                 
                 
                 setOk(true);
-                TextilEditView.this.setVisible(false);
+                TextilEditViewB.this.setVisible(false);
             }
         });
         
         bCancelar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                TextilEditView.this.setVisible(false);
+                TextilEditViewB.this.setVisible(false);
             }
         });
 

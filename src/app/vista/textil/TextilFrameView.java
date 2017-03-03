@@ -68,7 +68,7 @@ public class TextilFrameView extends javax.swing.JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // 2.5 - Adaptar EditView, Vo y Dao  
-                TextilEditView editView = new TextilEditView(TextilFrameView.this, true, new MateriaPrimaTextilVo());
+                TextilEditViewB editView = new TextilEditViewB(TextilFrameView.this, true, new MateriaPrimaTextilVo());
                 editView.setVisible(true);
                 if (editView.isOk()){
                     MateriaPrimaTextilVo l = editView.getTextil();
@@ -91,7 +91,7 @@ public class TextilFrameView extends javax.swing.JFrame {
                     return;
                 }
 
-                TextilEditView editView = new TextilEditView(TextilFrameView.this, true, l);
+                TextilEditViewB editView = new TextilEditViewB(TextilFrameView.this, true, l);
                 editView.setVisible(true);
                 if (editView.isOk()){
                     l = editView.getTextil();

@@ -186,4 +186,21 @@ public class MateriaPrimaNoTextilDao implements IDataDao<MateriaPrimaNoTextilVo>
         
         return (deletedRecords > 0);        
     }
+    
+    public static void main(String[] args){
+        MySqlDbConnection conexion = new MySqlDbConnection();
+        MateriaPrimaNoTextilDao mptd = new MateriaPrimaNoTextilDao();
+        
+        // Insertar
+        HashMap options = new HashMap();
+        MateriaPrimaNoTextilVo mptv = new MateriaPrimaNoTextilVo();
+        mptd.insertRecord(conexion, mptv, options);
+        // Listar
+        List<MateriaPrimaNoTextilVo> lista = mptd.getList(conexion, options);
+        // Actualizar
+        mptv.setPeso(1);
+        mptd.updateRecord(conexion, mptv, options);
+        // Eliminar
+        mptd.deleteRecord(conexion, mptv, options);
+    }
 }

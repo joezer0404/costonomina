@@ -67,7 +67,7 @@ public class NoTextilFrameView extends javax.swing.JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // 2.5 - Adaptar EditView, Vo y Dao  
-                NoTextilEditViewB editView = new NoTextilEditViewB(NoTextilFrameView.this, true, new MateriaPrimaNoTextilVo());
+                NoTextilEditView editView = new NoTextilEditView(NoTextilFrameView.this, true, new MateriaPrimaNoTextilVo());
                 editView.setVisible(true);
                 if (editView.isOk()){
                     MateriaPrimaNoTextilVo l = editView.getNoTextil();
@@ -90,7 +90,7 @@ public class NoTextilFrameView extends javax.swing.JFrame {
                     return;
                 }
 
-                NoTextilEditViewB editView = new NoTextilEditViewB(NoTextilFrameView.this, true, l);
+                NoTextilEditView editView = new NoTextilEditView(NoTextilFrameView.this, true, l);
                 editView.setVisible(true);
                 if (editView.isOk()){
                     l = editView.getNoTextil();

@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package app.vista.notextil;
+package app.vista.textil;
 
-import app.vista.notextil.*;
-import app.vista.notextil.*;
-import app.modelo.vo.MateriaPrimaNoTextilVo;
+import app.vista.textil.*;
+import app.modelo.vo.MateriaPrimaTextilVo;
+import app.modelo.vo.MateriaPrimaTextilVo.Unidad;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -15,12 +15,12 @@ import java.awt.event.ActionListener;
  * 
  * @author Hector
  */
-public class NoTextilEditViewB extends javax.swing.JDialog {
+public class TextilEditView extends javax.swing.JDialog {
 
     /**
      * 1- Usar Vo correcto
      */
-    private MateriaPrimaNoTextilVo materianotextil;
+    private MateriaPrimaTextilVo materiatextil;
     private boolean ok;
 
     /**
@@ -28,22 +28,23 @@ public class NoTextilEditViewB extends javax.swing.JDialog {
      * 2.1 - Usar Vo adecuado en el parametro del constructor
      * @param parent
      * @param modal
-     * @param materianotextil
+     * @param materiatextil
      */
-    public NoTextilEditViewB(java.awt.Frame parent, boolean modal, MateriaPrimaNoTextilVo materiatextil) {
+    public TextilEditView(java.awt.Frame parent, boolean modal, MateriaPrimaTextilVo materiatextil) {
         super(parent, modal);
         initComponents();
-        this.materianotextil = materianotextil;
+        this.materiatextil = materiatextil;
         ok = false;
         
         // 2.2 setear los valores de los JComponents adecuadamente
         //init values
         
-        txDescripcion.setText(materianotextil.getDescripcion());
-        txPeso.setText(String.valueOf(materianotextil.getPeso()));
-        txMtsxPso.setText(String.valueOf(materianotextil.getMtsPso()));
-        txMts.setText(String.valueOf(materianotextil.getMts()));
-        txPrecio.setText(String.valueOf(materianotextil.getPrecio()));
+        txDescripcion.setText(materiatextil.getDescripcion());
+        cbUnidad.setSelectedIndex(materiatextil.getUnidad().ordinal());
+        txPesoMtrs.setText(String.valueOf(materiatextil.getPesoMtrs()));
+        txMtsxPso.setText(String.valueOf(materiatextil.getMtsPso()));
+        txMts.setText(String.valueOf(materiatextil.getMts()));
+        txPrecio.setText(String.valueOf(materiatextil.getPrecio()));
        
         
         
@@ -53,21 +54,25 @@ public class NoTextilEditViewB extends javax.swing.JDialog {
                 // 2.4 En este procedimiento, se esta seteando el objeto con los valores
                 // del input
                 
-                getNoTextil().setDescripcion(txDescripcion.getText());
-                getNoTextil().setPeso(Float.parseFloat(txPeso.getText()));
-                getNoTextil().setMtsPso(Float.parseFloat(txMtsxPso.getText()));
-                getNoTextil().setMts(Float.parseFloat(txMts.getText()));
-                getNoTextil().setPrecio(Integer.valueOf(txPrecio.getText()));
+                getTextil().setDescripcion(txDescripcion.getText());
+                getTextil().setUnidad(Unidad.valueOf((String)cbUnidad.getSelectedItem()));
+                getTextil().setPesoMtrs(Float.parseFloat(txPesoMtrs.getText()));
+                getTextil().setMtsPso(Float.parseFloat(txMtsxPso.getText()));
+                getTextil().setMts(Float.parseFloat(txMts.getText()));
+                getTextil().setPrecio(Integer.valueOf(txPrecio.getText()));
                
+                            
+                
+                
                 setOk(true);
-                NoTextilEditViewB.this.setVisible(false);
+                TextilEditView.this.setVisible(false);
             }
         });
         
         bCancelar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                NoTextilEditViewB.this.setVisible(false);
+                TextilEditView.this.setVisible(false);
             }
         });
 
@@ -93,9 +98,11 @@ public class NoTextilEditViewB extends javax.swing.JDialog {
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
-        txPeso = new javax.swing.JTextField();
+        txPesoMtrs = new javax.swing.JTextField();
         txMtsxPso = new javax.swing.JTextField();
         txMts = new javax.swing.JTextField();
+        jLabel11 = new javax.swing.JLabel();
+        cbUnidad = new javax.swing.JComboBox<>();
         buttons = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -103,7 +110,7 @@ public class NoTextilEditViewB extends javax.swing.JDialog {
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel8.setText("MtsxPeso");
-        jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(42, 119, 110, 31));
+        jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 160, 110, 31));
 
         jLabel1.setText("Descripcion");
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(42, 32, 81, 31));
@@ -114,31 +121,37 @@ public class NoTextilEditViewB extends javax.swing.JDialog {
             }
         });
         jPanel1.add(txDescripcion, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 40, 280, -1));
-        jPanel1.add(txPrecio, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 220, 280, -1));
+        jPanel1.add(txPrecio, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 260, 280, -1));
 
         bAceptar.setText("Aceptar");
-        jPanel1.add(bAceptar, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 260, 95, 46));
+        jPanel1.add(bAceptar, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 300, 95, 46));
 
         bCancelar.setText("Cancelar");
-        jPanel1.add(bCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 260, 91, 49));
+        jPanel1.add(bCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 300, 91, 49));
 
-        jLabel9.setText("Peso");
-        jPanel1.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(42, 75, 140, 31));
+        jLabel9.setText("PesoMtrs");
+        jPanel1.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 110, 140, 31));
 
         jLabel10.setText("Mts");
-        jPanel1.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(42, 168, 130, 31));
+        jPanel1.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 200, 130, 31));
 
         jLabel12.setText("Precio");
-        jPanel1.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(42, 212, 90, 31));
+        jPanel1.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 250, 90, 31));
 
-        txPeso.addActionListener(new java.awt.event.ActionListener() {
+        txPesoMtrs.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txPesoActionPerformed(evt);
+                txPesoMtrsActionPerformed(evt);
             }
         });
-        jPanel1.add(txPeso, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 80, 280, -1));
-        jPanel1.add(txMtsxPso, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 130, 280, -1));
-        jPanel1.add(txMts, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 180, 280, -1));
+        jPanel1.add(txPesoMtrs, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 120, 280, -1));
+        jPanel1.add(txMtsxPso, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 170, 280, -1));
+        jPanel1.add(txMts, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 220, 280, -1));
+
+        jLabel11.setText("Unidad");
+        jPanel1.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(42, 75, 140, 31));
+
+        cbUnidad.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "MT", "KG" }));
+        jPanel1.add(cbUnidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 80, 280, -1));
 
         javax.swing.GroupLayout labelsLayout = new javax.swing.GroupLayout(labels);
         labels.setLayout(labelsLayout);
@@ -191,16 +204,18 @@ public class NoTextilEditViewB extends javax.swing.JDialog {
         bAceptar.doClick();
     }//GEN-LAST:event_txDescripcionActionPerformed
 
-    private void txPesoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txPesoActionPerformed
+    private void txPesoMtrsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txPesoMtrsActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txPesoActionPerformed
+    }//GEN-LAST:event_txPesoMtrsActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bAceptar;
     private javax.swing.JButton bCancelar;
     private javax.swing.JPanel buttons;
+    private javax.swing.JComboBox<String> cbUnidad;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
@@ -209,7 +224,7 @@ public class NoTextilEditViewB extends javax.swing.JDialog {
     private javax.swing.JTextField txDescripcion;
     private javax.swing.JTextField txMts;
     private javax.swing.JTextField txMtsxPso;
-    private javax.swing.JTextField txPeso;
+    private javax.swing.JTextField txPesoMtrs;
     private javax.swing.JTextField txPrecio;
     // End of variables declaration//GEN-END:variables
 
@@ -217,16 +232,16 @@ public class NoTextilEditViewB extends javax.swing.JDialog {
      * 3- Adaptar Vo
      * @return the language
      */
-    public MateriaPrimaNoTextilVo getNoTextil() {
-        return materianotextil;
+    public MateriaPrimaTextilVo getTextil() {
+        return materiatextil;
     }
 
     /**
      * 4- Adaptar Vo
-     * @param materianotextil 
+     * @param materiatextil 
      */
-    public void setTextil(MateriaPrimaNoTextilVo materianotextil) {
-        this.materianotextil = materianotextil;
+    public void setTextil(MateriaPrimaTextilVo materiatextil) {
+        this.materiatextil = materiatextil;
     }
 
     /**

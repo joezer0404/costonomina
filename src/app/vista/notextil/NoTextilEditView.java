@@ -31,7 +31,7 @@ public class NoTextilEditView extends javax.swing.JDialog {
     public NoTextilEditView(java.awt.Frame parent, boolean modal, MateriaPrimaNoTextilVo materiatextil) {
         super(parent, modal);
         initComponents();
-        this.materianotextil = materianotextil;
+        this.materianotextil = materiatextil;
         ok = false;
         
         // 2.2 setear los valores de los JComponents adecuadamente
@@ -55,7 +55,7 @@ public class NoTextilEditView extends javax.swing.JDialog {
                 getNoTextil().setPeso(Float.parseFloat(txPeso.getText()));
                 getNoTextil().setMtsPso(Float.parseFloat(txMtsxPso.getText()));
                 getNoTextil().setMts(Float.parseFloat(txMts.getText()));
-                getNoTextil().setPrecio(Integer.valueOf(txPrecio.getText()));
+                getNoTextil().setPrecio(Float.valueOf(txPrecio.getText()));
                
                 setOk(true);
                 NoTextilEditView.this.setVisible(false);

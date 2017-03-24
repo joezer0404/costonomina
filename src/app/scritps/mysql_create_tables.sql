@@ -61,9 +61,9 @@ CREATE TABLE NOMINA_PERSONAL(
 	nomina 		int 	NOT NULL,
 	PRIMARY KEY(cedula, nomina),
 	FOREIGN KEY (cedula)
-		REFERENCES PERSONAL(cedula)
-			ON DELETE NO ACTION
-			ON UPDATE NO ACTION,
+            REFERENCES PERSONAL(cedula)
+                    ON DELETE NO ACTION
+                    ON UPDATE NO ACTION,
 	FOREIGN KEY (nomina)
 	    REFERENCES NOMINA(id)
 	    	ON DELETE CASCADE
@@ -158,78 +158,3 @@ CREATE TABLE TEXTIL(
 ) ENGINE = InnoDB;
 
 CREATE INDEX index_textil ON TEXTIL(id);
-
--- Procedure para tabla empleado
-/*
-DELIMITER //
-
-CREATE PROCEDURE CalculoPersonal ( IN salarioM float)
-	salarioS 		float;
-	ivss4   		float;
-	ivss5   		float; 
-	inces    		float;
-	lph 	 		float,
-	prestaciones 	float;
-	utilidades 		float;
-	cestaticket 	float;
-	
-	BEGIN	
-		SELECT salarioS FROM PERSONAL 
-		AS SET salarioS = salarioM/30*7;
-	
-		SELECT ivss4 FROM PERSONAL 
-		AS SET ivss4 = ((salarioM*12)/52)*0.12*4;
-		
-		SELECT ivss5 FROM PERSONAL 
-		AS SET ivss5 = ((salarioM*12)/52)*0.12*5;
-
-		SELECT inces FROM PERSONAL
-		AS SET inces = salarioM*0.02;
-
-		SELECT lph	FROM PERSONAL
-		AS SET lph = (salarioM*0.02);
-		
-		SELECT prestacionnes FROM PERSONAL
-		AS SET prestaciones = salarioM*0.1825;
-		
-		SELECT utilidades FROM PERSONAL
-		AS SET utilidades = salarioM*0.925;
-
-		SELECT cestaticket FROM PERSONAL
-		AS SET cestaticket = 6750;
-	END //
-
-	DELIMITER;
-
-
-CREATE TRIGGER Operaciones 
-	AFTER INSERT OR UPDATE ON PERSONAL
-	FOR EACH ROW 
-	EXECUTE PROCEDURE CalculoPersonal(salarioM);
-*/
--- Procedure para tabla materia prima
-/*
-DELIMITER //
-
-CREATE PROCEDURE TotalMateria (peso float, mts_pso float, precio float)
-	BEGIN 
-		SELECT mts FROM MateriaPrima 
-		AS SET mts = peso*mts_pso;
-		
-		SELECT total FROM Materiaprima
-		AS SET total = mts*precio;
-	END //
-
-	DELIMITER;
-
-
-CREATE TRIGGER MateriaTotalsuma 
-	AFTER INSERT 
-	OR UPDATE 
-ONE Personal
-FOR EACH ROW 
-EXECUTE PROCEDURE TotalMateria(peso); //peso es lo que le pasaras al procedimiento
-				      //pero ese peso puede ser tanto de textl o no textil
-				      // segun lo que el tipo de materia que se meta*/
-
--- Procedure para tabla nomina y empleado nomina

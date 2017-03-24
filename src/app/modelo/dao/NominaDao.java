@@ -14,6 +14,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
@@ -59,6 +60,10 @@ public class NominaDao implements IDataDao<NominaVo>{
                 if (id != null)
                     sql += " AND id ='" + id + "'";
             
+                Date fecha = (Date) options.get("fecha");
+                if (fecha != null)
+                    sql += " AND fecha ='" + fecha + "'";
+                
                 String order = (String) options.get("order");
                     if (order != null)
                         sql += " ORDER BY " + order;

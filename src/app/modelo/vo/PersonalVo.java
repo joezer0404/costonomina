@@ -32,11 +32,13 @@ public class PersonalVo {
         MOD
     };
     
+    // Atributos agregados por el usuario
     private int    cedula;
     private String nombre;
     private String apellido;
     private Cargo cargo;
     private float salarioM;
+    // Atributos calculados por la base de datos / la aplicacion
     private float salarioS;
     private float ivss4;
     private float ivss5;
@@ -46,6 +48,7 @@ public class PersonalVo {
     private float utilidades;
     private float cestaticket;
 
+    // Constructor default
     public PersonalVo(){
         this.cedula = 0;
         this.nombre = "";
@@ -55,6 +58,7 @@ public class PersonalVo {
         actualizarCalculos();
     }
     
+    // Constructor personalizado por el usuario
     public PersonalVo(int cedula, String nombre, String apellido, Cargo cargo, float salarioM){
         this.cedula = cedula;
         this.nombre = nombre;
@@ -64,6 +68,7 @@ public class PersonalVo {
         actualizarCalculos();
     }
     
+    // Constructor para la base de datos
     public PersonalVo(int cedula, String nombre, String apellido, Cargo cargo, float salarioM, float salarioS, float ivss4, float ivss5, float inces, float lph, float prestaciones, float utilidades, float cestaticket) {
         this.cedula = cedula;
         this.nombre = nombre;
@@ -80,6 +85,8 @@ public class PersonalVo {
         this.cestaticket = cestaticket;
     }
 
+    // Getters y Setters
+    
     public int getCedula() {
         return cedula;
     }
@@ -192,6 +199,7 @@ public class PersonalVo {
     /**
      * Actualiza los valores que se deben calcular en funcion
      * del salario mensual.
+     * @deprecated La logica se implemento en la base de datos
      */
     private void actualizarCalculos(){
         salarioS     = (salarioM / (30 * 7));

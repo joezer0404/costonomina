@@ -6,10 +6,10 @@
 package app.modelo.vo;
 
 import app.Configuraciones;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,18 +26,20 @@ import java.util.logging.Logger;
  * 
  * - Agregar opcion que consulte al usuario cual ivss utilizar para calcular el
  * monto y realizar logica de la funcion "obtenerLunes".
- * - Llamar al metodo "actualizarCalculo" del empleado antes de insertarlo en la
+ * 
+ * (LISTO) - Llamar al metodo "actualizarCalculo" del empleado antes de insertarlo en la
  * nomina (lista empleados).
  * 
  * @author Hector
  */
 public class NominaVo {
-    
+    // Cargados por el usuario
     private int    id;
     private Date   fecha;
     private String empresa;
     private String rif;
     private String direccion;
+    // Cargados por la base de datos
     private float salarioM;
     private float salarioS;
     private float ivss4;
@@ -51,6 +53,7 @@ public class NominaVo {
     
     private ArrayList<PersonalVo> empleados;
     
+    // Constructor personalizado
     public NominaVo(int id, Date fecha, String empresa, String rif, String direccion) {
         this.empleados = new ArrayList();
         this.id = id;
@@ -62,6 +65,7 @@ public class NominaVo {
         this.limpiarLista();
     }
 
+    // Constructor default
     public NominaVo() {
         this.id = 0;
         this.fecha = new Date();
@@ -70,7 +74,6 @@ public class NominaVo {
         this.direccion = Configuraciones.DIRECCION;
         this.empleados = new ArrayList();
         this.limpiarLista();
-        
     }
 
     public int getId() {
@@ -254,7 +257,7 @@ public class NominaVo {
             this.utilidades   += empleado.getUtilidades();
             this.cestaticket  += empleado.getCestaticket();
             
-            this.total = (this.obtenerLunes() == 4? ivss4 : ivss5) + inces 
+            this.total = (this.obtenerLunes(fecha) == 4? ivss4 : ivss5) + inces 
                     + lph + prestaciones + utilidades;
         }
     }
@@ -263,7 +266,27 @@ public class NominaVo {
      * Determina cuantos lunes tiene la fecha registrada
      * @return Cantidad de lunes que posee el mes de la fecha registrada
      */
-    private int obtenerLunes() {
-        return 4;
+    public int obtenerLunes(Date fecha) {
+       
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(fecha);
+        int year = cal.get(Calendar.YEAR);
+        int month = cal.get(Calendar.MONTH);
+
+        Calendar calendar = Calendar.getInstance();
+        // Note that month is 0-based in calendar, bizarrely.
+        calendar.set(year, month - 1, 1);
+        int daysInMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+
+        int count = 0;
+        for (int day = 1; day <= daysInMonth; day++) {
+            calendar.set(year, month - 1, day);
+            int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+            if (dayOfWeek == Calendar.MONDAY) {
+                count++;
+                // Or do whatever you need to with the result.
+            }
+        }
+        return count;
     }
 }

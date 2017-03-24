@@ -13,6 +13,7 @@ import app.vista.MainView;
  * 1) Hara la configuracion incial
  * 2) Cargara el controlador con su vista inicial
  * 
+ * @see MainView
  * @author Hector
  */
 public class NominaApp {

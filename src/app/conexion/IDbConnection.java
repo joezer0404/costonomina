@@ -7,7 +7,7 @@ package app.conexion;
 
 /**
  *
- * @author ejorge
+ * @author Jorge
  */
 public interface IDbConnection {
     

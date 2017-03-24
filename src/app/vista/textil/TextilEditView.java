@@ -59,7 +59,7 @@ public class TextilEditView extends javax.swing.JDialog {
                 getTextil().setPesoMtrs(Float.parseFloat(txPesoMtrs.getText()));
                 getTextil().setMtsPso(Float.parseFloat(txMtsxPso.getText()));
                 getTextil().setMts(Float.parseFloat(txMts.getText()));
-                getTextil().setPrecio(Integer.valueOf(txPrecio.getText()));
+                getTextil().setPrecio(Float.valueOf(txPrecio.getText()));
                
                             
                 

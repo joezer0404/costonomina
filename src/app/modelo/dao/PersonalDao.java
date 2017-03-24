@@ -22,15 +22,17 @@ import java.sql.PreparedStatement;
  * Data access object de PersonalVo, esta clase permite la conexion
  * de la base de datos y la obtencion de sus elementos, aparte de editarlos.
  * 
- * @author Jorge
+ * @author Hector
  */
 public class PersonalDao implements IDataDao<PersonalVo>{
     //flag to drive open/close connection in local methods
     boolean localOpen;
     
+    // Retorna una lista de personal en base a las opciones de busqueda
     @Override
     public List<PersonalVo> getList(IDbConnection db, 
             HashMap<String, Object> options) {
+        
         List<PersonalVo> list = new ArrayList<>();
         MySqlDbConnection mysqlDb = (MySqlDbConnection) db;
         
@@ -66,11 +68,26 @@ public class PersonalDao implements IDataDao<PersonalVo>{
             
             ResultSet rs = mysqlDb.getResultSet(sql);
             while (rs.next()){
+                
+                /*PersonalVo l = new PersonalVo(rs.getInt("cedula"),
+                                        rs.getString("nombre"),
+                                        rs.getString("apellido"),
+                                        PersonalVo.Cargo.valueOf(rs.getString("cargo")),
+                                        rs.getFloat("salarioM"));*/
+                
                 PersonalVo l = new PersonalVo(rs.getInt("cedula"),
                                         rs.getString("nombre"),
                                         rs.getString("apellido"),
                                         PersonalVo.Cargo.valueOf(rs.getString("cargo")),
-                                        rs.getFloat("salarioM"));
+                                        rs.getFloat("salarioM"),
+                                        rs.getFloat("salarioS"),
+                                        rs.getFloat("ivss4"),
+                                        rs.getFloat("ivss5"),
+                                        rs.getFloat("inces"),
+                                        rs.getFloat("lph"),
+                                        rs.getFloat("prestaciones"),
+                                        rs.getFloat("utilidades"),
+                                        rs.getFloat("cestaticket"));
                 list.add(l);
             }
         } catch (DbException | SQLException ex) {
@@ -84,6 +101,7 @@ public class PersonalDao implements IDataDao<PersonalVo>{
         return list;
     }
 
+    // Retorna el primer elemento obtenido con ciertos parametros
     @Override
     public PersonalVo getRecord(IDbConnection db, HashMap<String, Object> options) {
         List<PersonalVo> list = getList(db, options);
@@ -91,6 +109,7 @@ public class PersonalDao implements IDataDao<PersonalVo>{
         return null;
     }
     
+    // Inserta un registro de Personal en la base de datos
     @Override
     public boolean insertRecord(IDbConnection db, PersonalVo record, HashMap<String, Object> options) {
         MySqlDbConnection mysqlDb = (MySqlDbConnection) db;
@@ -102,6 +121,16 @@ public class PersonalDao implements IDataDao<PersonalVo>{
                 localOpen = true;
             }
             
+            String sql = "INSERT INTO Personal (cedula, nombre, apellido, cargo, salarioM) VALUES(?,?,?,?,?)";
+            
+            PreparedStatement sentencia = mysqlDb.getPS(sql);
+            sentencia.setInt(1, record.getCedula());
+            sentencia.setString(2, record.getNombre());
+            sentencia.setString(3, record.getApellido());
+            sentencia.setString(4, record.getCargo().name());
+            sentencia.setFloat(5, record.getSalarioM());
+            
+            /*
             String sql = "INSERT INTO Personal VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)";
             
             PreparedStatement sentencia = mysqlDb.getPS(sql);
@@ -117,7 +146,7 @@ public class PersonalDao implements IDataDao<PersonalVo>{
             sentencia.setFloat(10, record.getLph());
             sentencia.setFloat(11, record.getPrestaciones());
             sentencia.setFloat(12, record.getUtilidades());
-            sentencia.setFloat(13, record.getCestaticket());
+            sentencia.setFloat(13, record.getCestaticket());*/
             
             insertedRecords = sentencia.executeUpdate();
 
@@ -133,6 +162,7 @@ public class PersonalDao implements IDataDao<PersonalVo>{
         return (insertedRecords>0);
     }
 
+    // Actualiza un registro de personal en la base de datos con nuevos datos
     @Override
     public boolean updateRecord(IDbConnection db, PersonalVo record, HashMap<String, Object> options) {
         MySqlDbConnection mysqlDb = (MySqlDbConnection) db;
@@ -148,6 +178,14 @@ public class PersonalDao implements IDataDao<PersonalVo>{
                     + "SET nombre = '" + record.getNombre() + "' ,"
                     + "apellido = '" + record.getApellido() + "' ,"
                     + "cargo = '" + record.getCargo().name() + "' ,"
+                    + "salarioM = '" + record.getSalarioM() + "' "
+                    + "WHERE cedula = ' " + record.getCedula() + "'";
+            
+            /*
+            String sql = "UPDATE Personal " 
+                    + "SET nombre = '" + record.getNombre() + "' ,"
+                    + "apellido = '" + record.getApellido() + "' ,"
+                    + "cargo = '" + record.getCargo().name() + "' ,"
                     + "salarioM = '" + record.getSalarioM() + "' ,"
                     + "salarioS = '" + record.getSalarioS() + "' ,"
                     + "ivss4 = '" + record.getIvss4() + "' ,"
@@ -157,7 +195,7 @@ public class PersonalDao implements IDataDao<PersonalVo>{
                     + "prestaciones = '" + record.getPrestaciones() + "' ,"
                     + "utilidades   = '" + record.getUtilidades() + "' ,"
                     + "cestaticket  = '" + record.getCestaticket() + "'"
-                    + "WHERE cedula = '" + record.getCedula() + "'";
+                    + "WHERE cedula = '" + record.getCedula() + "'";*/
                
             System.out.println("UPDATE SQL:" + sql);
 
@@ -174,6 +212,7 @@ public class PersonalDao implements IDataDao<PersonalVo>{
         return (updatedRecords>0);
     }
 
+    // Elimina un registro de personal de la base de datos
     @Override
     public boolean deleteRecord(IDbConnection db, PersonalVo record, HashMap<String, Object> options) {
         MySqlDbConnection mysqlDb = (MySqlDbConnection) db;

@@ -11,7 +11,9 @@ import app.vista.gastosadministracion.GastosAdministracionFrameView;
 import app.vista.costofijo.CostoFijoFrameView;
 import app.vista.gastosventas.GastosVentasFrameView;
 import app.vista.nomina.NominaFrameView;
+import app.vista.notextil.NoTextilFrameView;
 import app.vista.personal.PersonalFrameView;
+import app.vista.textil.TextilFrameView;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -68,6 +70,20 @@ public class MainView extends javax.swing.JFrame {
                 new CostoFabricacionFrameView(new MySqlDbConnection()).setVisible(true);
             }
         });
+        
+        bTextil.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new TextilFrameView(new MySqlDbConnection()).setVisible(true);
+            }
+        });
+        
+        bNoTextil.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new NoTextilFrameView(new MySqlDbConnection()).setVisible(true);
+            }
+        });
     }
 
     /**
@@ -86,10 +102,11 @@ public class MainView extends javax.swing.JFrame {
         bGastosVen = new javax.swing.JButton();
         bCostoFabricacion = new javax.swing.JButton();
         bCostoFijo = new javax.swing.JButton();
-        bCostoFabricacion1 = new javax.swing.JButton();
-        bCostoFijo1 = new javax.swing.JButton();
+        bTextil = new javax.swing.JButton();
+        bNoTextil = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Sistema administrativo de nomina");
         setResizable(false);
 
         bPersonal.setText("Personal");
@@ -104,11 +121,9 @@ public class MainView extends javax.swing.JFrame {
 
         bCostoFijo.setText("Costo Fijo");
 
-        bCostoFabricacion1.setText("Materia prima Textil");
-        bCostoFabricacion1.setEnabled(false);
+        bTextil.setText("Materia prima Textil");
 
-        bCostoFijo1.setText("Materia prima No Textil");
-        bCostoFijo1.setEnabled(false);
+        bNoTextil.setText("Materia prima No Textil");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -130,9 +145,9 @@ public class MainView extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(bCostoFijo, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(bCostoFabricacion1, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(bTextil, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(bCostoFijo1, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(bNoTextil, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -152,8 +167,8 @@ public class MainView extends javax.swing.JFrame {
                     .addComponent(bCostoFijo, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(bCostoFabricacion1, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(bCostoFijo1, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(bTextil, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(bNoTextil, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -210,16 +225,13 @@ public class MainView extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bCostoFabricacion;
-    private javax.swing.JButton bCostoFabricacion1;
     private javax.swing.JButton bCostoFijo;
-    private javax.swing.JButton bCostoFijo1;
     private javax.swing.JButton bGastosAdm;
     private javax.swing.JButton bGastosVen;
+    private javax.swing.JButton bNoTextil;
     private javax.swing.JButton bNomina;
     private javax.swing.JButton bPersonal;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
+    private javax.swing.JButton bTextil;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     // End of variables declaration//GEN-END:variables
 }

@@ -107,10 +107,10 @@ public class MateriaPrimaNoTextilDao implements IDataDao<MateriaPrimaNoTextilVo>
             sentencia.executeUpdate();
             
             ResultSet rs = sentencia.getGeneratedKeys();
-            rs.next();
+            /*rs.next();
             int id = rs.getInt(1);
             
-            record.setId(id);
+            record.setId(id);*/
             
         } catch (DbException | SQLException ex) {
             Logger.getLogger(MateriaPrimaNoTextilDao.class.getName()).log(Level.SEVERE, null, ex);

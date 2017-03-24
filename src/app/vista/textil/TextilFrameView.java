@@ -155,7 +155,7 @@ public class TextilFrameView extends javax.swing.JFrame {
         bAgregar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Gastos ventas");
+        setTitle("Materia prima textil");
 
         pBuscar.setBackground(java.awt.Color.lightGray);
 

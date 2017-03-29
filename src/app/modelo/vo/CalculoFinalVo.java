@@ -6,6 +6,7 @@
 package app.modelo.vo;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Representa los calculos necesarios para determinar el valor de una prenda.
@@ -24,10 +25,10 @@ public class CalculoFinalVo {
      * Clase que representa el material primo utilizado y la cantidad utilizada,
      * puede venir en metros o unidades.
      */
-    class MateriaPrima {
-        MateriaPrimaVo material;
-        float cantidad;
-        float total;
+    public class MateriaPrima {
+        public MateriaPrimaVo material;
+        public float cantidad;
+        public float total;
         
         MateriaPrima(MateriaPrimaVo material, float cantidad){
             this.material = material;
@@ -57,6 +58,10 @@ public class CalculoFinalVo {
     /** El total de gastos de ventas. */
     private float totalGastoVenta;
     
+    /** El margen de utilidad */
+    private float margenUtilidad = 0.70f;
+    
+            
     /**
      * Constructor default.
      */
@@ -137,6 +142,23 @@ public class CalculoFinalVo {
     }
     
     /**
+     * Remueve un material de la lista.
+     * @param index el index de la materia prima a remover 
+     * @return true en caso de haber eliminado el objeto asociado a la posicion
+     */
+    public boolean removerMaterial(int index){
+        return materiales.remove(materiales.get(index));
+    }
+    
+    /**
+     * Retorna el tamaño del conjunto de materiales primos.
+     * @return el tamaño del conjunto
+     */
+    public int size(){
+        return materiales.size();
+    }
+    
+    /**
      * Retorna la materia prima por referencia del conjunto
      * @param materia la materia prima textil/no textil a buscar
      * @return el objeto <CODE>MateriaPrima</CODE> asociado a ese material, null en caso de no encontrarlo
@@ -149,6 +171,15 @@ public class CalculoFinalVo {
         }
         
         return null;
+    }
+    
+    /**
+     * Retorna la materia prima por referencia del conjunto
+     * @param index la posicion de la materia prima en la lista
+     * @return el objeto <CODE>MateriaPrima</CODE> asociado a ese material, null en caso de no encontrarlo
+     */
+    public MateriaPrima getMaterial(int index){
+        return materiales.get(index);
     }
     
     /**
@@ -166,8 +197,35 @@ public class CalculoFinalVo {
      * Actualiza el total de mano de obra en funcion de la nomina actual.
      * @param nomina nomina de la que se obtiene el total.
      */
-    public void actualizarManoDeObra(NominaVo nomina){
-        totalManoDeObra = nomina.getTotal();
+    public void actualizarManoDeObra(NominaVo nomina) throws Exception{
+        if(nomina == null){
+            throw new Exception("No existe una nomina en la "
+                    + "base de datos, por favor cree una nomina para poder calcular la prenda.");
+        }
+        // Calculos de la hoja MANO DE OBRA en excel
+        float nominal = nomina.getTotal();
+        float cestaticket = nomina.getCestaticket();
+        float bonoProduccion = 30000;
+        float utilidades = 0.0833f * nominal;
+        float vacaciones = 0.0583f * nominal;
+        float sso = 0.10f * nominal;
+        float lph = 0.02f * nominal;
+        float paroForzoso = 0.0175f * nominal;
+        float ince = 0.02f * nominal;
+        float prestacionesSociales = 0.1825f * nominal;
+        // Obteniendo el total de mano de obra
+        float total = nominal + cestaticket + bonoProduccion + utilidades + vacaciones + sso + lph
+                + paroForzoso + ince + prestacionesSociales;
+        // La capacidad es una constante de la hoja COSTOS en excel
+        float capacidadUtilizadaEnMinutos = 42900;
+        // El numero de trabajadores es una constante de la hoja MANO DE OBRA
+        float valorDelMinutoMOD = total / capacidadUtilizadaEnMinutos;
+        float numeroDeTrabajadores = 5;
+        // La cantidad mano de obra es una constante de la hoja COSTO UNITARIO en excel
+        float valorEnMinuto = (valorDelMinutoMOD * numeroDeTrabajadores) / 0.3f;
+        float cantidadManoDeObra = 20;
+        
+        totalManoDeObra = valorEnMinuto * cantidadManoDeObra;
     }
     
     /**
@@ -175,7 +233,7 @@ public class CalculoFinalVo {
      * @param fijos conjunto de costos fijos
      * @param fabricaciones conjunto de costos relacionados con la fabricacion
      */
-    public void actualizarCostos(ArrayList<CostoFijoVo> fijos, ArrayList<CostoFabricacionVo> fabricaciones){
+    public void actualizarCostos(List<CostoFijoVo> fijos, List<CostoFabricacionVo> fabricaciones){
         totalCostoFijo = 0;
         for(CostoFijoVo f : fijos){
             totalCostoFijo += f.getMonto();
@@ -191,7 +249,7 @@ public class CalculoFinalVo {
      * @param gastos conjunto de gastos administrativos
      * @param ventas conjunto de gastos de ventas
      */
-    public void actualizarGastos(ArrayList<GastosAdministracionVo> gastos, ArrayList<GastosVentaVo> ventas){
+    public void actualizarGastos(List<GastosAdministracionVo> gastos, List<GastosVentaVo> ventas){
         totalGastoAdministrativo = 0;
         for(GastosAdministracionVo g : gastos){
             totalGastoAdministrativo += g.getMonto();
@@ -201,4 +259,52 @@ public class CalculoFinalVo {
             totalGastoVenta += g.getMonto();
         }
     }
+    
+    /**
+     * Retorna el costo total de la prenda por unidad.
+     * @return costo total de la prenda unitaria
+     */
+    public float obtenerCostoUnidad(){
+        return this.totalManoDeObra + this.totalMateriaPrima + this.totalCostoFabricacion
+                + this.totalCostoFijo + this.totalGastoAdministrativo + this.totalGastoVenta;
+    }
+    
+    /**
+     * Retorna el precio de venta estimado en funcion del costo por unidad 
+     * y el margen de utilidad
+     * @return precio de venta estimado de la prenda
+     */
+    public float obtenerPrecioVenta(){
+        return obtenerCostoUnidad() / this.margenUtilidad;
+    }
+
+    public float getTotalMateriaPrima() {
+        return totalMateriaPrima;
+    }
+
+    public float getTotalManoDeObra() {
+        return totalManoDeObra;
+    }
+
+    public float getTotalCostoFijo() {
+        return totalCostoFijo;
+    }
+
+    public float getTotalCostoFabricacion() {
+        return totalCostoFabricacion;
+    }
+
+    public float getTotalGastoAdministrativo() {
+        return totalGastoAdministrativo;
+    }
+
+    public float getTotalGastoVenta() {
+        return totalGastoVenta;
+    }
+
+    public float getMargenUtilidad() {
+        return margenUtilidad;
+    }
+    
+    
 }

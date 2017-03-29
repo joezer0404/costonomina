@@ -6,6 +6,7 @@
 package app.vista;
 
 import app.conexion.MySqlDbConnection;
+import app.vista.calculofinal.CalculoFinalMainView;
 import app.vista.costofabricacion.CostoFabricacionFrameView;
 import app.vista.gastosadministracion.GastosAdministracionFrameView;
 import app.vista.costofijo.CostoFijoFrameView;
@@ -84,6 +85,13 @@ public class MainView extends javax.swing.JFrame {
                 new NoTextilFrameView(new MySqlDbConnection()).setVisible(true);
             }
         });
+        
+        bCalculoFinal.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new CalculoFinalMainView(new MySqlDbConnection()).setVisible(true);
+            }
+        });
     }
 
     /**
@@ -104,6 +112,7 @@ public class MainView extends javax.swing.JFrame {
         bCostoFijo = new javax.swing.JButton();
         bTextil = new javax.swing.JButton();
         bNoTextil = new javax.swing.JButton();
+        bCalculoFinal = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Sistema administrativo de nomina");
@@ -125,6 +134,8 @@ public class MainView extends javax.swing.JFrame {
 
         bNoTextil.setText("Materia prima No Textil");
 
+        bCalculoFinal.setText("Calcular prendas");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -132,6 +143,7 @@ public class MainView extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(bCalculoFinal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(bPersonal, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
@@ -169,7 +181,9 @@ public class MainView extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(bTextil, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(bNoTextil, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(bCalculoFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(16, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -224,6 +238,7 @@ public class MainView extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton bCalculoFinal;
     private javax.swing.JButton bCostoFabricacion;
     private javax.swing.JButton bCostoFijo;
     private javax.swing.JButton bGastosAdm;

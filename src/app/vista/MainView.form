@@ -43,9 +43,10 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" attributes="0">
+              <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="bCalculoFinal" max="32767" attributes="0"/>
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="bPersonal" min="-2" pref="231" max="-2" attributes="0"/>
                           <EmptySpace pref="41" max="32767" attributes="0"/>
@@ -94,7 +95,9 @@
                       <Component id="bTextil" alignment="3" min="-2" pref="96" max="-2" attributes="0"/>
                       <Component id="bNoTextil" alignment="3" min="-2" pref="96" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace max="32767" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="bCalculoFinal" min="-2" pref="96" max="-2" attributes="0"/>
+                  <EmptySpace pref="16" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -138,6 +141,11 @@
         <Component class="javax.swing.JButton" name="bNoTextil">
           <Properties>
             <Property name="text" type="java.lang.String" value="Materia prima No Textil"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JButton" name="bCalculoFinal">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Calcular prendas"/>
           </Properties>
         </Component>
       </SubComponents>

@@ -121,7 +121,7 @@ public class PersonalDao implements IDataDao<PersonalVo>{
                 localOpen = true;
             }
             
-            String sql = "INSERT INTO Personal (cedula, nombre, apellido, cargo, salarioM) VALUES(?,?,?,?,?)";
+            String sql = "INSERT INTO Personal (cedula, nombre, apellido, cargo, salarioM, cestaticket) VALUES(?,?,?,?,?,?)";
             
             PreparedStatement sentencia = mysqlDb.getPS(sql);
             sentencia.setInt(1, record.getCedula());
@@ -129,6 +129,7 @@ public class PersonalDao implements IDataDao<PersonalVo>{
             sentencia.setString(3, record.getApellido());
             sentencia.setString(4, record.getCargo().name());
             sentencia.setFloat(5, record.getSalarioM());
+            sentencia.setFloat(6, record.getCestaticket());
             
             /*
             String sql = "INSERT INTO Personal VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)";
@@ -178,7 +179,8 @@ public class PersonalDao implements IDataDao<PersonalVo>{
                     + "SET nombre = '" + record.getNombre() + "' ,"
                     + "apellido = '" + record.getApellido() + "' ,"
                     + "cargo = '" + record.getCargo().name() + "' ,"
-                    + "salarioM = '" + record.getSalarioM() + "' "
+                    + "salarioM = '" + record.getSalarioM() + "' ,"
+                    + "cestaticket = '" + record.getCestaticket() + "' "
                     + "WHERE cedula = ' " + record.getCedula() + "'";
             
             /*

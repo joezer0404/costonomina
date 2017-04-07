@@ -13,7 +13,6 @@ CREATE TRIGGER insert_personal
         SET NEW.lph          = (NEW.salarioM * 0.02);
         SET NEW.prestaciones = (NEW.salarioM * 0.1825);
         SET NEW.utilidades   = (NEW.salarioM * 0.0925);
-        SET NEW.cestaticket  = 6750;
     END$$
 DELIMITER;
 
@@ -30,7 +29,6 @@ CREATE TRIGGER update_personal
         SET NEW.lph          = (NEW.salarioM * 0.02);
         SET NEW.prestaciones = (NEW.salarioM * 0.1825);
         SET NEW.utilidades   = (NEW.salarioM * 0.0925);
-        SET NEW.cestaticket  = 6750;
     END$$
 DELIMITER;
 /*

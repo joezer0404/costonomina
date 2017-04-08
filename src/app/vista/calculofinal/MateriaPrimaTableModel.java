@@ -5,16 +5,19 @@
  */
 package app.vista.calculofinal;
 
-import app.modelo.vo.CalculoFinalVo;
+import app.conexion.IDbConnection;
+import app.conexion.MySqlDbConnection;
+import app.modelo.dao.MateriaPrimaDao;
 import app.modelo.vo.MateriaPrimaTextilVo;
+import app.modelo.vo.MateriaPrimaVo;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
 /**
  *
- * @author S.C
+ * @author Hector
  */
-public class CalculoFinalTableModel extends AbstractTableModel {
+public class MateriaPrimaTableModel extends AbstractTableModel {
      /**
      * 1- COLUMN COUNT representara la cantidad de columnas que llevara la tabla,
      * depende de la cantidad de atributos que quieres mostrar en la tabla.
@@ -24,23 +27,33 @@ public class CalculoFinalTableModel extends AbstractTableModel {
      * 2- Column Names son los nombres asignados por cada columna, deben tener la misma
      * cantidad de columnas que se indican en COLUMN COUNT.
      */
-    private static final String columnNames[] = {"nombre", "unidad", "precio","cantidad","total"};
+    private static final String columnNames[] = {"Descripcion", "MtsPso", "Mts", "Precio", "Total"};
     
-    private CalculoFinalVo calculo;
+    private MySqlDbConnection connection;
+    /**
+     * 3- El Dao del objeto a utilizar, usar Dao adecuado
+     */
+    private MateriaPrimaDao     mDao;
+    /**
+     * 4- La lista de objetos a mostrar en la tabla, usar Vo adecuado
+     */
+    private List<MateriaPrimaVo>  materia;
     
     /**
      * 5- Adaptar con el Dao elegido
      * @param conn 
      */
-    public CalculoFinalTableModel(CalculoFinalVo calculo){
-        this.calculo = calculo;
+    public MateriaPrimaTableModel(IDbConnection conn){
+        this.connection = (MySqlDbConnection) conn;
+        mDao = new MateriaPrimaDao();
+        materia = mDao.getList(conn, null);
     }
     
     @Override
     public int getRowCount() {
-        if (calculo == null)
+        if (materia == null)
             return 0;
-        return calculo.size();
+        return materia.size();
     }
 
     @Override
@@ -65,22 +78,22 @@ public class CalculoFinalTableModel extends AbstractTableModel {
      */
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        if (calculo == null || rowIndex >= calculo.size())
+        if (materia == null || rowIndex >= materia.size())
             return null;
         
-        CalculoFinalVo.MateriaPrima material = calculo.getMaterial(rowIndex);
+        MateriaPrimaVo textil = materia.get(rowIndex);
         
         switch(columnIndex){
             case 0:
-                return material.material.getDescripcion();
+                return textil.getDescripcion();
             case 1:
-                return material.material instanceof MateriaPrimaTextilVo? "MTS":"UND";
+                return textil.getMtsPso();
             case 2:
-                return material.material.getPrecio();
+                return textil.getMts();    
             case 3:
-                return material.cantidad;
+                return textil.getPrecio();
             case 4:
-                return material.total;
+                return textil.getTotal();     
         }
         
         return null;
@@ -91,19 +104,19 @@ public class CalculoFinalTableModel extends AbstractTableModel {
      * @param index
      * @return 
      */
-    public CalculoFinalVo.MateriaPrima getMateriaPrima(int index){
-        if (index < 0 || index >= calculo.size())
+    public MateriaPrimaVo getTextil(int index){
+        if (index < 0 || index >= materia.size())
             return null;
-        return calculo.getMaterial(index);
+        return materia.get(index);
     }
     
     /**
      * 8- Utilizar Vo correcto
      * @param l 
      */
-    public void addRow(CalculoFinalVo.MateriaPrima l){
-        calculo.agregarMaterial(l.material, l.cantidad);
-        fireTableRowsInserted(calculo.size(), calculo.size());
+    public void addRow(MateriaPrimaTextilVo l){
+        materia.add(l);
+        fireTableRowsInserted(materia.size(), materia.size());
     }
     
     /**
@@ -111,26 +124,23 @@ public class CalculoFinalTableModel extends AbstractTableModel {
      * @param index
      * @param l 
      */
-    public void updateRow(int index, CalculoFinalVo.MateriaPrima l){
-        calculo.agregarMaterial(l.material, l.cantidad);
+    public void updateRow(int index, MateriaPrimaTextilVo l){
+        materia.set(index, l);
         fireTableRowsUpdated(index, index);
     }
     
     public void deleteRow(int index){
-        calculo.removerMaterial(index);
+        materia.remove(index);
         fireTableRowsDeleted(index, index);
     }
     
     /**
-     *
-     * @param materiales
+     * 10- Utilizar Vo correcto
+     * @param materiatextil 
      */
-    public void setMateriaPrima(List<CalculoFinalVo.MateriaPrima> materiales){
-        for(CalculoFinalVo.MateriaPrima m : materiales){
-            calculo.agregarMaterial(m.material, m.cantidad);
-        }
+    public void setTextil(List<MateriaPrimaVo> materia){
+        this.materia = materia;
         fireTableDataChanged();
     }
-        
+    
 }
-

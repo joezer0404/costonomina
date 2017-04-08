@@ -12,6 +12,8 @@ import app.modelo.dao.GastosAdministracionDao;
 import app.modelo.dao.GastosVentaDao;
 import app.modelo.dao.NominaDao;
 import app.modelo.vo.CalculoFinalVo;
+import app.modelo.vo.MateriaPrimaTextilVo;
+import app.modelo.vo.MateriaPrimaVo;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.logging.Level;
@@ -26,31 +28,41 @@ public class CalculoFinalMainView extends javax.swing.JFrame {
 
     CalculoFinalVo calculoFinal = new CalculoFinalVo();
     CalculoFinalTableModel model = new CalculoFinalTableModel(calculoFinal);
+    MateriaPrimaListaView lista;
+    IDbConnection connection;
     
     /**
      * Creates new form CalculoFinalMainView
      */
     public CalculoFinalMainView(IDbConnection connection) {
         initComponents();
+        this.connection = connection;
         actualizarCalculos(connection);
         tbMateriaPrima.setModel(model);
+        lista = new MateriaPrimaListaView(connection, this);
         
         bAgregar.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
-                
+                lista.reset();
+                lista.setVisible(true);
             }
         });
         bEditar.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
-                
+                float cantidad = Float.parseFloat(JOptionPane.showInputDialog(null, "Inserta la nueva cantidad", "Calculo final", JOptionPane.INFORMATION_MESSAGE));
+                model.getMateriaPrima(tbMateriaPrima.getSelectedRow()).cantidad = cantidad;
+                model.getMateriaPrima(tbMateriaPrima.getSelectedRow()).calculate();
+                model.fireTableDataChanged();
+                actualizarCalculos(connection);
             }
         });
         bRemover.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
-                
+                model.deleteRow(tbMateriaPrima.getSelectedRow());
+                actualizarCalculos(connection);
             }
         });
         
@@ -91,6 +103,16 @@ public class CalculoFinalMainView extends javax.swing.JFrame {
         lCostoUnidad.setText(Float.toString(calculoFinal.obtenerCostoUnidad()));
         lMargen.setText(Float.toString(calculoFinal.getMargenUtilidad()));
         lPrecioVenta.setText(Float.toString(calculoFinal.obtenerPrecioVenta()));
+    }
+    
+    void agregarPrenda(MateriaPrimaVo current, float cantidad) {
+        if(current instanceof MateriaPrimaTextilVo)
+            calculoFinal.agregarMaterial(current, cantidad);
+        else
+            calculoFinal.agregarMaterial(current, (int)cantidad);
+        
+        model.fireTableDataChanged();
+        actualizarCalculos(connection);
     }
     
     /**
@@ -451,4 +473,5 @@ public class CalculoFinalMainView extends javax.swing.JFrame {
     private javax.swing.JLabel lPrecioVenta;
     private javax.swing.JTable tbMateriaPrima;
     // End of variables declaration//GEN-END:variables
+
 }

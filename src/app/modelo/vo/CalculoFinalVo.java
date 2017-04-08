@@ -35,6 +35,10 @@ public class CalculoFinalVo {
             this.cantidad = cantidad;
             this.total = material.getPrecio() * cantidad;
         }
+        
+        public void calculate(){
+            total = material.getPrecio() * cantidad;
+        }
     }
     
     /** El conjunto de materia prima, pueden ser textil o no textil. */
